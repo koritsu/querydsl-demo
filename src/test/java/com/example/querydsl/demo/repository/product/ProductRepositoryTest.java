@@ -48,7 +48,7 @@ class ProductRepositoryTest {
         );
 
         assertNotNull(products);
-        assertEquals(10, products.size());
+        assertEquals(21, products.size());
 
         var products2 = productRepository.findProductsLikeNameAndPrice(null, 50);
 
@@ -66,7 +66,7 @@ class ProductRepositoryTest {
         );
 
         assertNotNull(products3);
-        assertEquals(3, products3.size());
+        assertEquals(9, products3.size());
 
     }
 
@@ -100,7 +100,7 @@ class ProductRepositoryTest {
     @DisplayName("여러 아이디로 상품과 가게 정보 조회 - fetch join")
     @Test
     void findProductsWithStoreJoinFetch() {
-        var products = productRepository.findProductsWithStoreJoinFetch(Set.of(1L, 2L, 3L, 4L));
+        var products = productRepository.findProductsWithStoreFetchJoin(Set.of(1L, 2L, 3L, 4L));
         var orders = products.stream().flatMap(p -> p.getOrders().stream()).toList();
 
         assertNotNull(products);

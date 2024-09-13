@@ -43,8 +43,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     private BooleanExpression nameContains(final String name) {
-//        return name != null ? product.name.contains(name) : null;
-        return name != null ? product.name.endsWith(name) : null;
+        return name != null ? product.name.contains(name) : null;
+//        return name != null ? product.name.endsWith(name) : null;
     }
 
     private BooleanExpression priceGt(final int price) {
@@ -64,6 +64,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         queryFactory.select(product.id.count()).from(product).fetchOne()
                 ).orElse(0L);
 
+        // 카운트 쿼리가 대용량에서 이슈가 있습니다. slice , pk 기반의 페이징에 대한 고민을 해봅시다.
+
         return new PageImpl<>(products, pageable, totalCount);
     }
 
@@ -78,7 +80,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     }
 
-    public List<Product> findProductsWithStoreJoinFetch(final Set<Long> productIds) {
+    public List<Product> findProductsWithStoreFetchJoin(final Set<Long> productIds) {
 
         return queryFactory
                 .selectFrom(product)
